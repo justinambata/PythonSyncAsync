@@ -2,4 +2,4 @@ class TimeConstants:
     SECS_APPLY_SPREAD=2
     SECS_ASSEMBLE_SANDWICH=1
     SECS_TOAST=3
-    SECS_POUR_OJ=6
+    SECS_POUR_OJ=4

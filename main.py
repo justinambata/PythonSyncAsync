@@ -16,5 +16,5 @@ def Run(method):
     end = time.time()
     print(f'Time: {end-start:.2f} sec')
 
-Run(MakeAsyncBreakfast)
 Run(MakeSyncBreakfast)
+Run(MakeAsyncBreakfast)

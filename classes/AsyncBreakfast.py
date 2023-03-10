@@ -7,12 +7,22 @@ class AsyncBreakfast:
     
     def make(self):
         self.loop = asyncio.get_event_loop()
-        tasks = [
+        self.tasks = [
             self.loop.create_task(self.make_pbj()),
             self.loop.create_task(self.pour_oj()),
         ]
-        self.loop.run_until_complete(asyncio.wait(tasks))
-        self.loop.close()
+        self.loop.run_until_complete(asyncio.wait(self.tasks))
+        #self.loop.close()
+        self.loop.stop()
+
+        try:
+            # run_forever() returns after calling loop.stop()
+            self.loop.run_forever()
+            for t in [t for t in self.tasks if not (t.done() or t.cancelled())]:
+                # give canceled tasks the last chance to run
+                self.loop.run_until_complete(t)
+        finally:
+            self.loop.close()
     
     async def sleep(self, secs):
         await asyncio.sleep(secs)
@@ -40,8 +50,11 @@ class AsyncBreakfast:
         print("Making a peanut butter & jelly sandwich:")
         task1 = self.loop.create_task(self.toast_bread_and_apply_spread("peanut butter"))
         task2 = self.loop.create_task(self.toast_bread_and_apply_spread("jelly"))
+        self.tasks.append(task1)
+        self.tasks.append(task2)
         if task1.done() and task2.done():
             await self.assemble_pbj()
+            #self.loop.create_task(self.assemble_pbj())
     
     async def pour_oj(self):
         print("Pouring orange juice...")
