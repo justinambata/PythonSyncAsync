@@ -2,19 +2,19 @@ import time
 from classes.AsyncBreakfast import AsyncBreakfast
 from classes.SyncBreakfast import SyncBreakfast
 
-def RunAsyncBreakfast():        
-    start = time.time()
+def MakeAsyncBreakfast():       
     breakfast = AsyncBreakfast()
     breakfast.make()
-    end = time.time()
-    print(f'Time: {end-start:.2f} sec')
 
-def RunSyncBreakfast():        
-    start = time.time()
+def MakeSyncBreakfast():        
     breakfast = SyncBreakfast()
     breakfast.make()
+
+def Run(method):
+    start = time.time()
+    method()
     end = time.time()
     print(f'Time: {end-start:.2f} sec')
 
-RunSyncBreakfast()
-RunAsyncBreakfast()
+Run(MakeAsyncBreakfast)
+Run(MakeSyncBreakfast)
