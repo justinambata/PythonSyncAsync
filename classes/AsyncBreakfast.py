@@ -54,7 +54,6 @@ class AsyncBreakfast:
         self.tasks.append(task2)
         if task1.done() and task2.done():
             await self.assemble_pbj()
-            #self.loop.create_task(self.assemble_pbj())
     
     async def pour_oj(self):
         print("Pouring orange juice...")
